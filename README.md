@@ -1,5 +1,4 @@
 # EniMSG
-## Get & Send messages on Gmail , encrypted by Enigma
+### Get & Send messages on Gmail , encrypted by Enigma
 
-![GitHub Logo](/images/logo.png)
-Format: ![Alt Text](url)
+!(https://github.com/i18z/enimsg/blob/master/img/enimsg.png)
