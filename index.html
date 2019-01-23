@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>EniMSG - Message by Enigma</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="   crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="content">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">EnigMSG</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a id="tab-home-view" role="button" href="#">Home </a></li>
+            <li><a id="tab-getmsg-view" role="button" href="#">Get Message</a></li>
+            <li><a id="tab-sendmsg-view" role="button" href="#">Send Message</a></li>
+            <li><a id="tab-getkey-view" role="button" href="#">Query Key</a></li>
+          </ul>
+          <form class="navbar-form navbar-left">
+            <button type="submit" class="btn btn-default" id="qsLoginBtn">Login</button>
+            <button type="submit" class="btn btn-default" id="qsLogoutBtn">Logout</button>
+          </form>
+        </div>
+
+
+      </div>
+    </nav>
+
+    <main class="container">
+      <!-- home view -->
+      <div id="home-view">
+        <h3>EnigMSG</h3>
+        <div>
+          <h4>Get & Send messages on Gmail , encrypted by Enigma</h4>
+          <p>Powered by Auth0 and Webtask</p>
+        </div>
+        <div>
+          <img src="img/enimsg.png" class="img-responsive img-rounded" alt="Responsive image">
+        </div>
+      </div>
+	    
+      <!-- get message view -->
+      <!--div class="jumbotron">
+        <h4>Hardcore Tips</h4>
+        <pre>X         = Period
+Y         = Comma
+XX        = Colon
+YY        = Dash/Hyphen/Slant
+KK**KK    = Parenthesis
+Y******Y  = Numbers, where QWERTY.... => 123456....
+        </pre>    
+      </div-->
+      <div id="getmsg-view" class="panel panel-default profile-area hidden">
+        <div class="panel-heading">
+          <h3>Get Message</h3>
+        </div>
+        <div class="panel-body">
+          <div class="alert alert-danger hidden" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span><span id="getmsg-error"></span>
+          </div>
+          <div>
+            <form id="form-get-msg" class="form-inline">
+              <div class="form-group">
+                <label class="sr-only" for="inputKeyHash">Key Hash</label>
+                <input type="text" class="form-control" id="inputKeyHash" name="key_hash" placeholder="Key Hash, i.e. UTOBBB">
+              </div>
+              <button type="submit" id="btn-get-msg" class="btn btn-default">Get</button>
+            </form>
+          </div>
+          <div id="msg-info">
+            <h5>From</h5>
+            <samp id="msg-from">&nbsp;</samp>
+            <h5>Message</h5>
+            <samp id="msg-text">&nbsp;</samp>
+          </div>
+          <div>
+            <button type="button" class="btn btn-sm btn-info" data-toggle="popover">Feeling Hardcore?</button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- send message view -->
+      <div id="sendmsg-view" class="panel panel-default profile-area hidden">
+        <div class="panel-heading">
+          <h3>Send Message</h3>
+        </div>
+        <div class="panel-body">
+          <div class="alert alert-danger hidden" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span><span id="sendmsg-error"></span>
+          </div>
+          <div class="alert alert-success hidden" id="sent-msg-info" role="alert">
+            <p>Message sent out, pass the \"key hash\" code <code id="sent-msg-keyhash"></code> to the receiver so he/she can get the message.</p>
+          </div>
+          <div>
+            <form id="form-send-msg">
+              <div class="form-group">
+                <label for="inputEmail">To</label>
+                <input type="email" class="form-control" id="inputEmail" name="msg_to" placeholder="Email Address">
+              </div>
+              <div class="form-group">
+                <label for="inputMsg">Message</label>
+                <textarea rows="5" class="form-control" id="inputMsg" name="msg_text" placeholder="Message"></textarea>
+              </div>
+              <button type="submit" id="btn-send-msg" class="btn btn-default">Send</button>
+              <button type="button" class="btn btn-sm btn-info" data-toggle="popover">Feeling Hardcore?</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- get key view -->
+      <div id="getkey-view" class="panel panel-default profile-area hidden">
+        <div class="panel-heading">
+          <h3>Get Key</h3>
+        </div>
+        <div class="panel-body">
+          <div class="alert alert-danger hidden" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span><span id="getkey-error"></span>
+          </div>
+          <div>
+            <form id="form-get-key" class="form-inline">
+              <div class="form-group">
+                <label class="sr-only" for="inputKeyHash">Key Hash</label>
+                <input type="text" class="form-control" id="inputKeyHash" name="key_hash" placeholder="Key Hash, i.e. UTOBBB">
+              </div>
+              <button type="submit" id="btn-get-key" class="btn btn-default">Get</button>
+            </form>
+          </div>
+          <div><samp>
+            <h4>Settings of Key Hash: <span id="key-hash"></span></h4>
+          </samp></div>
+          <div id="key-info" class="col-sm-12"><samp>
+            <dl>
+              <dt>Rotor (Walzenlage)</dt>
+              <dd id="key-rotor">&nbsp;</dd>
+              <dt>Reflector (UKW)</dt>
+              <dd id="key-reflector">&nbsp;</dd>
+              <dt>Ground (Grundstellung)</dt>
+              <dd id="key-ground">&nbsp;</dd>
+              <dt>Ring (Ringstellung)</dt>
+              <dd id="key-ring">&nbsp;</dd>
+              <dt>Plugboard (Steckerbrett)</dt>
+              <dd id="key-plugboard">&nbsp;</dd>
+            </dl>
+          </samp></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.auth0.com/js/auth0/9.8.2/auth0.min.js"></script>
+  <script src="js/auth0-variables.js"></script>
+  <script src="js/enimsg.js"></script>
+  <script src="js/front.js"></script>
+</body>
+
+</html>
